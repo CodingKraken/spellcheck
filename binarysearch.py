@@ -1,3 +1,5 @@
+# woah here's a comment
+
 word = "the"
 file = open('dictionary.txt')
 contents = file.read()
