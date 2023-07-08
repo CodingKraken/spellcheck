@@ -1,5 +1,6 @@
 # woah here's a comment!
 #comment two!
+# comment tre
 
 word = "the"
 file = open('dictionary.txt')
