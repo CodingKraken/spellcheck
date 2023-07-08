@@ -1,5 +1,5 @@
 word = "the"
-file = open('stuff')
+file = open('dictionary.txt')
 contents = file.read()
 file.close()
 D = contents.split()
