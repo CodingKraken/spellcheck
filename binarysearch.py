@@ -2,34 +2,38 @@
 #comment two!
 # comment tre
 
-word = "the"
-file = open('dictionary.txt')
+word = "yay"
+file = open('better_dictionary.txt')
 contents = file.read()
 file.close()
 D = contents.split()
 def d_check(wd, d):
-    wd = wd.lower()
-    wd = wd.replace("-", "")
-    A = "!&',./0123456789abcdefghijklmnopqrstuvwxyz"
-    v = [A.find(c) for c in wd]
+    wd1 = wd.lower()
+    A = "!&',-./0123456789abcdefghijklmnopqrstuvwxyz"
+    v = [A.find(c) for c in wd1]
     l = 0
     h = len(d) - 1
     while l <= h:
         m = (l + h) // 2
-        w = (d[m]).lower()
-        w = w.replace("-", "")
+        w = d[m]
+        print(m, w)
+        w1 = w.lower()
         if w == wd:
             return True
         if l == h:
-            return False
-        lv = len(v)
+            return l
+        lwd = len(wd)
         lw = len(w)
-        mn = min(lv, lw)
+        mn = min(lwd, lw)
         i = 0
-        while i < (mn) and v[i] == A.find(w[i]):
+        while i < mn and v[i] == A.find(w1[i]):
             i += 1
-        if i == (lv) or v[i] > A.find(w[i]):
+        if i == lw:
             l = m + 1
-        else:
+        elif i == lwd:
             h = m - 1
+        elif v[i] > A.find(w1[i]):
+            l = m + 1
+        else:h = m - 1
+
 print(d_check(word, D))
