@@ -3,7 +3,7 @@
 # comment tre
 
 word = "yay"
-file = open('better_dictionary.txt')
+file = open('correctdictionary.txt')
 contents = file.read()
 file.close()
 D = contents.split()
