@@ -6,11 +6,6 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
     # from 0 and -1, to get around this we can use dictionaries where the 
     # keys allow for such indexing, without nasty magic offsets
     d: dict[tuple[int, int], int] = {}
-
-    # da[c] will store largest x <= len(a)-1 s.t. a[x] = c, for all characters.
-    # later, db will hold the largest y <= len(b)-1 s.t. b[y] = a[i]
-    da: dict[str, int] = {}
-
     a_dict: dict[int, str] = {}
     b_dict: dict[int, str] = {}
     for i in range(1, len(a)+1):
@@ -19,6 +14,11 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
     for j in range(1, len(b)+1):
         b_dict[j] = b[j-1]
         print(b_dict[j])
+
+
+    # da[c] will store largest x <= len(a)-1 s.t. a[x] = c, for all characters.
+    # later, db will hold the largest y <= len(b)-1 s.t. b[y] = a[i]
+    da: dict[str, int] = {}
 
     for i in alphabet:
         da[i] = 0
