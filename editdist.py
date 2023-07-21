@@ -53,7 +53,3 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
                           d[k-1, l-1] + (i-k-1) + 1 + (j-l-1))  # transposition
             da[a_dict[i]] = i
     return d[len(a), len(b)] # The final edit distance between the strings
-
-word1 = "beans"
-word2 = "bars"
-print(f"Dist between {word1}, {word2}: {edit_dist(word1, word2)}")
