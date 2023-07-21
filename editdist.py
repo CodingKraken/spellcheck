@@ -10,6 +10,16 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
     # da[c] will store largest x <= len(a)-1 s.t. a[x] = c, for all characters.
     # later, db will hold the largest y <= len(b)-1 s.t. b[y] = a[i]
     da: dict[str, int] = {}
+
+    a_dict: dict[int, str] = {}
+    b_dict: dict[int, str] = {}
+    for i in range(1, len(a)+1):
+        a_dict[i] = a[i-1]
+        print(a_dict[i])
+    for j in range(1, len(b)+1):
+        b_dict[j] = b[j-1]
+        print(b_dict[j])
+
     for i in alphabet:
         da[i] = 0
 
@@ -31,15 +41,19 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
         for j in range(1, len(b)+1):
             # store indices of last common letter in a and b in k and l,
             # these will be used to compute the cost of transpositions
-            k = da[b[j-1]]
+            k = da[b_dict[j]]
             l = db
             cost = 1
-            if a[i-1] == b[j-1]: # The only weird reindexing we have to do for strings
+            if a_dict[i] == b_dict[j]:                
                 cost = 0
                 db = j
             d[i, j] = min(d[i-1, j-1] + cost,                   # substitution
                           d[i,   j-1] + 1,                      # insertion
                           d[i-1, j  ] + 1,                      # deletion
                           d[k-1, l-1] + (i-k-1) + 1 + (j-l-1))  # transposition
-            da[a[i-1]] = i
+            da[a_dict[i]] = i
     return d[len(a), len(b)] # The final edit distance between the strings
+
+word1 = "beans"
+word2 = "bars"
+print(f"Dist between {word1}, {word2}: {edit_dist(word1, word2)}")
