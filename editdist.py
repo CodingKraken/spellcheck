@@ -10,10 +10,8 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
     b_dict: dict[int, str] = {}
     for i in range(1, len(a)+1):
         a_dict[i] = a[i-1]
-        print(a_dict[i])
     for j in range(1, len(b)+1):
         b_dict[j] = b[j-1]
-        print(b_dict[j])
 
 
     # da[c] will store largest x <= len(a)-1 s.t. a[x] = c, for all characters.
@@ -44,12 +42,12 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
             k = da[b_dict[j]]
             l = db
             cost = 1
-            if a_dict[i] == b_dict[j]:                
+            if a_dict[i] == b_dict[j] and i == j:                
                 cost = 0
                 db = j
-            d[i, j] = min(d[i-1, j-1] + cost,                   # substitution
-                          d[i,   j-1] + 1,                      # insertion
-                          d[i-1, j  ] + 1,                      # deletion
-                          d[k-1, l-1] + (i-k-1) + 1 + (j-l-1))  # transposition
+            d[i, j] = min(d[i-1, j-1] + cost,                           # substitution
+                          d[i,   j-1] + 1,                              # insertion
+                          d[i-1, j  ] + 1,                              # deletion
+                          max(1, d[k-1, l-1] + (i-k-1) + 1 + (j-l-1)))  # transposition
             da[a_dict[i]] = i
     return d[len(a), len(b)] # The final edit distance between the strings
