@@ -41,5 +41,5 @@ def returnSimilars(tree, parent, query, similarWords):
   searchTree(tree, parent, query, similarWords)
   print(similarWords)
 
-words = []
-returnSimilars(dictionary3, "stick", "stim", [])
+queryWord = input("What word do you want to check?")
+returnSimilars(dictionary3, "stick", queryWord, [])
