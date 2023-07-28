@@ -45,9 +45,9 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
             if a_dict[i] == b_dict[j]:                
                 cost = 0
                 db = j
-            d[i, j] = min(d[i-1, j-1] + cost,                           # substitution
-                          d[i,   j-1] + 1,                              # insertion
-                          d[i-1, j  ] + 1,                              # deletion
-                          max(1, d[k-1, l-1] + (i-k-1) + 1 + (j-l-1)))  # transposition
+            d[i, j] = min(d[i-1, j-1] + cost,                                   # substitution
+                          d[i,   j-1] + 1,                                      # insertion
+                          d[i-1, j  ] + 1,                                      # deletion
+                          max(d[i-1,j-1], d[k-1, l-1] + (i-k-1) + 1 + (j-l-1))) # transposition
             da[a_dict[i]] = i
     return d[len(a), len(b)] # The final edit distance between the strings
