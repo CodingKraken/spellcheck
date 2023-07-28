@@ -42,7 +42,7 @@ def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxy
             k = da[b_dict[j]]
             l = db
             cost = 1
-            if a_dict[i] == b_dict[j] and i == j:                
+            if a_dict[i] == b_dict[j]:                
                 cost = 0
                 db = j
             d[i, j] = min(d[i-1, j-1] + cost,                           # substitution
