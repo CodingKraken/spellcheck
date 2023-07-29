@@ -4,7 +4,7 @@ from tree import dictionary
 
 def searchTree(tree, parent, query, similarWords):
     parentList = tree.get(parent)
-    t = 2
+    t = 1
     d = edit_dist(parent, query)
     # if the parent word is in acceptable tolerance t
     if d <= t:
@@ -28,7 +28,7 @@ def searchTree(tree, parent, query, similarWords):
 
 def returnSimilars(tree, parent, query, similarWords):
   searchTree(tree, parent, query, similarWords)
-  print(similarWords)
+  return similarWords
 
-queryWord = input("What word do you want to check?")
-returnSimilars(dictionary, "stick", queryWord, [])
+queryWord = input("What word do you want to check? ")
+print(returnSimilars(dictionary, "stick", queryWord, []))
