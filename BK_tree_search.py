@@ -1,17 +1,6 @@
 from editdist import edit_dist
+from tree import dictionary
 
-dictionary3 = {
-    'stock' : [291222, ['stick', 1], [1, 'stuck'], [2, 'sick']],
-    'sick' : [291070, ['stock', 2], [1, 'slick'], [2, 'sticks']],
-    'stick' : [290682, [None], [1, 'stock']],
-    'stuck' : [290360, ['stock', 1], [1, 'stack'], [2, 'stoick']],
-    'sticks' : [286799, ['sick', 2], [1, 'sticky'], [2, 'stink']],
-    'stack' : [285914, ['stuck', 1], [1, 'steck']],
-    'sticky' : [282915, ['sticks', 1], [None]],
-    'tick' : [282910, ['slick', 2], [None]],
-    'slick' : [281489, ['sick', 1], [1, 'spick'], [2, 'tick']],
-    'stink' : [276801, ['sticks', 2], [1, 'stik'], [2, 'shtick']]
-}
 
 def searchTree(tree, parent, query, similarWords):
     parentList = tree.get(parent)
@@ -42,4 +31,4 @@ def returnSimilars(tree, parent, query, similarWords):
   print(similarWords)
 
 queryWord = input("What word do you want to check?")
-returnSimilars(dictionary3, "stick", queryWord, [])
+returnSimilars(dictionary, "stick", queryWord, [])
