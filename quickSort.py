@@ -1,10 +1,11 @@
-from formatted_dictionary import dictionary
+from tree import dictionary
 from one_step_suggestions import suggestions
 
 def mostUsed(similars: list, dictionary):
   mostUsed = 0
   for i in range(len(similars)):
     currentFreq = dictionary.get(similars[i])
+    currentFreq = currentFreq[0]
     if currentFreq > mostUsed:
       mostUsed = currentFreq
 
@@ -16,7 +17,9 @@ def partition(similars, start, end, dictionary):
   # iterating through similars and sorting which elements are before and after the pivot
   for j in range(start, end):
     #when element smaller than pivot
-    if dictionary.get(similars[j]) < dictionary.get(pivot):
+    freqPivot = dictionary.get(pivot)
+    freqElementJ = dictionary.get(similars[j])
+    if  freqElementJ[0] < freqPivot[0]:
       i += 1 # move focused marker over one
       swap(similars, i, j) # swap element less than pivot with element greater than pivot
 
