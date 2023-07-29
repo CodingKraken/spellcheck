@@ -18,7 +18,7 @@ def searchTree(tree, parent, query, similarWords):
 
     # only look at children in acceptable range
     # [edit-dist(parent, query) + t, edit-distance(parent, query) - t]
-    for i in range(low, d + t):
+    for i in range(low, d + t + 1):
         try:
             child = parentList[i + 2][1]
             searchTree(tree, child, query, similarWords)
