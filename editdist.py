@@ -1,7 +1,7 @@
 # Computation of Damerau-Levenshtein Distance, based on 
 # Lowrance, Wagner (1975), "An Extension to the String-to-String Correction Problem"
 # and https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
-def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxyz") -> int:
+def edit_dist(a: str, b: str, alphabet: str="0123456789abcdefghijklmnopqrstuvwxyz'") -> int:
     # the paper indexes all strings from 1, and certain special 2d arrays 
     # from 0 and -1, to get around this we can use dictionaries where the 
     # keys allow for such indexing, without nasty magic offsets
