@@ -38,7 +38,6 @@ def returnSimilars(tree, parent, query, similarWords):
     if edit_dist(similarWords[i], query) <= finalTol:
         finalSuggestions.append(similarWords[i])
 
-
   return finalSuggestions
 
 queryWord = input("What word do you want to check? ").lower().strip()
