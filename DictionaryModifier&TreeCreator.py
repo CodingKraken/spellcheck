@@ -5,7 +5,7 @@ import time
 # most importantly, set your root word:
 rootword = "stick"
 
-from originaldictionary import dictionary # change this to match the original sorted-by-frequency-from-mostfrequent-to-leastfrequent list of english words, that you *must* have
+from formatted_dictionary import dictionary # change this to match the original sorted-by-frequency-from-mostfrequent-to-leastfrequent list of english words, that you *must* have
 
 modified_dictionary_name = "please don't write" # this where you set the name of the file for modified_dictionary to be written to
 # change modified_dictionary_name to "please don't write" if you do not want an extra such file.
