@@ -1,0 +1,124 @@
+from tree import dictionary
+import time
+###########################
+###########################
+# This is a python 3 expression of the damerau-levenshtein distance algorithm.
+# Based on pseudocode from Wikipedia: https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
+# and translated from the python 2 code provided by James M. Jenson II: https://gist.github.com/badocelot/5327337
+def edit_dist(a, b):
+    start_editdist = time.perf_counter()
+    INF = len(a) + len(b)
+    matrix  = [[INF for _ in range(len(b) + 2)]]
+    matrix += [[INF] + list(range(len(b) + 1))]
+    matrix += [[INF, m] + [0] * len(b) for m in range(1, len(a) + 1)]
+    last_row = {}
+    for row in range(1, len(a) + 1):
+        ch_a = a[row-1]
+        last_match_col = 0
+        for col in range(1, len(b) + 1):
+            ch_b = b[col-1]
+            last_matching_row = last_row.get(ch_b, 0)
+            cost = 0 if ch_a == ch_b else 1
+            matrix[row+1][col+1] = min(
+                matrix[row][col] + cost,
+                matrix[row+1][col] + 1,
+                matrix[row][col+1] + 1,
+                matrix[last_matching_row][last_match_col]
+                    + (row - last_matching_row - 1) + 1
+                    + (col - last_match_col - 1))
+            if cost == 0:
+                last_match_col = col
+        last_row[ch_a] = row
+    end_editdist = time.perf_counter()
+    global time_editdist
+    time_editdist += (end_editdist - start_editdist)
+    return matrix[-1][-1]
+###########################
+def get_souls(word, tol, currentnode):
+    souls_from_this_node_and_downward = []
+    house = dictionary.get(currentnode)
+    for i in range(2, len(house)):
+        editdis1 = edit_dist(word, currentnode)
+        editdis2, child = house[i]
+        if editdis2 > editdis1 + tol:
+            return souls_from_this_node_and_downward
+        if editdis2 > editdis1 - tol:
+            souls_from_this_node_and_downward.append(child)
+            new_souls = get_souls(word, tol, child)
+            for soul in new_souls:
+                souls_from_this_node_and_downward.append(soul)
+    return souls_from_this_node_and_downward
+##########################
+def get_suggestions_for_any_top_n(word, root, top_n):
+    i = 1
+    max_i = len(dictionary.get(root))-2
+    while True:
+        relatives = get_souls(word, i, root)
+        if edit_dist(root, word) <= i:
+            relatives.append(root)
+        if len(relatives) >= top_n or i == max_i:
+            return relatives
+        else:
+            i += 1
+##########################
+def get_sorted_suggestions(word, root, top_n):
+    unsorted_suggestions = get_suggestions_for_any_top_n(word, root, top_n)
+    buckets = [[edit_dist(unsorted_suggestions[0], word), unsorted_suggestions[0]]]
+    for suggestion in unsorted_suggestions[1:]:
+        editdis = edit_dist(word, suggestion)
+        for i, v in enumerate(buckets):
+            if v[0] == editdis:
+                buckets[i].append(suggestion)
+                break
+            elif v[0] > editdis:
+                buckets.insert(i, [editdis, suggestion])
+                break
+        else:
+            buckets.append([editdis, suggestion])
+    final_sorted_buckets = (tuple(sorted(i[1:], key=lambda x: dictionary.get(x)[0], reverse=True)) for i in buckets)
+    suggestions = []
+    for bucket in final_sorted_buckets:
+        for word in bucket:
+            suggestions.append(word)
+    return tuple(suggestions[:top_n])
+###########################
+def splitText(text):
+    text = text.replace(",", "").replace("!", ".").replace("?", ".")
+    text = text.split(". ")
+    for i in range(len(text)):
+        text[i] = text[i].split()
+    if text[-1][-1][-1] == '.':
+        text[-1][-1] = text[-1][-1][:-1]
+    return text
+
+def main(D, text, top_n, root):
+    starttime = time.perf_counter()
+    text = splitText(text)
+    Output = []
+    for j, sentence in enumerate(text):
+        errors = []
+        for i, word in enumerate(sentence):
+            if word.lower() not in D:
+                tup = (i, "r", word.lower(), get_sorted_suggestions(word.lower(), root, top_n))
+                errors.append(tup)
+        if errors:
+            Output.append((j, tuple(errors)))
+    endtime = time.perf_counter()
+    TIME = endtime-starttime
+    return (tuple(Output), TIME)
+#################################
+def OUTPUT_OUTPUT(output):
+    with open("output.txt", "w", encoding="utf-8") as file:
+        for sentence in output:
+            file.write(f'\n\ntypos in sentence {sentence[0]}:')
+            file.flush()
+            for error in sentence[1]:
+                line = f'\n    typo: "{error[2]}", position in sentence: {error[0]}, color highlight: {error[1]}, suggestions for typo: {error[3]}'
+                file.write(line)
+                file.flush()
+#################################
+text = "Sup dogg, how you doin? Bob ate pizza of the sidealk, and Steve, you know Steve, decided to skatebord right down the escalator. It was soooo cool bro. The janitor had to cal for bakcup, and subsequntly annihilated poor Bob. He's okay now, he only has a crushed trachea and sprained one of his many spinl cords."
+OUTPUT, TIME = main(dictionary, text, 10, "stick")
+print(TIME)
+OUTPUT_OUTPUT(OUTPUT)
+#################################
